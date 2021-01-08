@@ -7,12 +7,12 @@ import {
     InputContainer,
 } from './style'
 
-const Input = ({type, placeholder}) => {
+const Input = ({type, placeholder, clickFunction}) => {
     if (type === 'search'){
         return(
             <InputContainer>
                 <IconContainer>
-                    <SearchButton>
+                    <SearchButton onClick={clickFunction}>
                         <SearchIcon />
                     </SearchButton>
                 </IconContainer>
