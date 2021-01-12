@@ -1,4 +1,5 @@
 import {
+	CardTotal,
 	CardStyle,
 	ImageStyle,
 	InformationStyle,
@@ -14,45 +15,63 @@ import {
 } from './style';
 import Thumbnail from '../Thumbnail/index';
 import Text from '../Text/index';
+import React, { useState, useEffect } from 'react';
 
-const Card = ({ children, imageUrl }) => {
+const Card = ({ children, fetchUrl }) => {
+	const [ values, setItems ] = useState([]);
+	const fetchFunction = async () => {
+		const data = await fetch(fetchUrl);
+		const results = await data.json()
+		console.log(results.results)
+		setItems(()=>[...results.results]);
+	};
+
+	useEffect(() => {
+		fetchFunction();
+	}, []);
+
+
 	return (
-		<CardStyle>
-			<ImageStyle>
-				<Thumbnail url={imageUrl} />
-			</ImageStyle>
-			<InformationStyle>
-				<NameStyle>
-					<Text color="black" size="extra-large" fontSize="18px">
-						Shalom Chioma
-					</Text>
-				</NameStyle>
-				<AddressStyle>
-					<Text color="black" size="medium" fontSize="14px">
-						9278, New Road, Kilcole, Waterford
-					</Text>
-				</AddressStyle>
-				<OtherStyle>
-					<IconStyle>
-						<EnvelopeIcon />
-						<Text color="black" size="small" fontSize="14px" opacity="0.5">
-							shalom.chioma@gmail.com
-						</Text>
-					</IconStyle>
-					<IconStyle>
-						<PhoneIcon />
-						<Text color="black" size="small" fontSize="14px" opacity="0.5">
-							011-962-7516
-						</Text>
-					</IconStyle>
-				</OtherStyle>
-			</InformationStyle>
-            <ButtonStyle>
-                <NavButtonStyle>
-                    <AngleStyle />
-                </NavButtonStyle>
-            </ButtonStyle>
-		</CardStyle>
+		<CardTotal >
+			{values?.map((result) => (
+				<CardStyle>
+					<ImageStyle>
+						<Thumbnail url={result.picture['large']} />
+					</ImageStyle>
+					<InformationStyle>
+						<NameStyle>
+							<Text color="black" size="extra-large" fontSize="18px">
+								{`${result.name.first} ${result.name.last}`}
+							</Text>
+						</NameStyle>
+						<AddressStyle>
+							<Text color="black" size="medium" fontSize="14px">
+								{`${result.location['street']["number"]} ${result.location['street']["name"]} , ${result.location['city']}, ${result.location['state']}, ${result.location['country']}`}
+							</Text>
+						</AddressStyle>
+						<OtherStyle>
+							<IconStyle>
+								<EnvelopeIcon />
+								<Text color="black" size="small" fontSize="14px" opacity="0.5">
+									{result.email}
+								</Text>
+							</IconStyle>
+							<IconStyle>
+								<PhoneIcon />
+								<Text color="black" size="small" fontSize="14px" opacity="0.5">
+									{result.phone}
+								</Text>
+							</IconStyle>
+						</OtherStyle>
+					</InformationStyle>
+					<ButtonStyle>
+						<NavButtonStyle>
+							<AngleStyle />
+						</NavButtonStyle>
+					</ButtonStyle>
+				</CardStyle>
+			))}
+		</CardTotal>
 	);
 };
 

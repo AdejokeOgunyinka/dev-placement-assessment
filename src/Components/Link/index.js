@@ -4,18 +4,20 @@ import {
 	PinkContainer,
 	PurpleContainer,
 	TextContainer,
-	WhiteContainer,
-	BlackContainer,
 	Icon
 } from './style';
 import Text from '../Text/index';
 
+
 const LinkBox = ({ user, icon, textColor, textSize, textFontSize, textOpacity, children, active, setActive }) => {
-	console.log({ active });
+	const getUrl = window.location.href.split("/");
+	const page = getUrl[getUrl.length - 1] ===""? "all":getUrl[getUrl.length - 1];
+	 
 	if (user === 'male') {
 		return (
-			<LinkContainer active={active} user={user} onClick={() => setActive('male')}>
+			<LinkContainer active={page} user={user} onClick={() => setActive('male')}>
 				<BlueContainer>
+
 					<Icon className={icon} />
 				</BlueContainer>
 				<TextContainer>
@@ -27,7 +29,7 @@ const LinkBox = ({ user, icon, textColor, textSize, textFontSize, textOpacity, c
 		);
 	} else if (user === 'female') {
 		return (
-			<LinkContainer active={active} user={user} onClick={() => setActive('female')}>
+			<LinkContainer active={page} user={user} onClick={() => setActive('female')}>
 				<PurpleContainer>
 					<Icon className={icon} />
 				</PurpleContainer>
@@ -40,7 +42,7 @@ const LinkBox = ({ user, icon, textColor, textSize, textFontSize, textOpacity, c
 		);
 	} else if (user === 'all') {
 		return (
-			<LinkContainer active={active} user={user} onClick={() => setActive('all')}>
+			<LinkContainer active={page} user={user} onClick={() => setActive('all')}>
 				<PinkContainer>
 					<Icon className={icon} />
 				</PinkContainer>

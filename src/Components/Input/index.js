@@ -1,13 +1,13 @@
 import React from 'react';
 import { SearchIcon, SearchButton, InputBox, IconContainer, InputContainer, WhiteInputBox } from './style';
 
-const Input = ({ type, placeholder, borderRadius,  backgroundColor, opacity, clickFunction }) => {
+const Input = ({ type, placeholder, borderRadius, iconColor, backgroundColor, opacity, clickFunction }) => {
 	if (type === 'search') {
 		return (
 			<InputContainer borderRadius={borderRadius} backgroundColor={backgroundColor}>
 				<IconContainer>
 					<SearchButton onClick={clickFunction}>
-						<SearchIcon />
+						<SearchIcon color={iconColor}/>
 					</SearchButton>
 				</IconContainer>
 				<InputBox placeholder={placeholder}  />
@@ -16,10 +16,10 @@ const Input = ({ type, placeholder, borderRadius,  backgroundColor, opacity, cli
 	}
 	else if (type === 'small-search') {
 		return(
-			<InputContainer borderRadius={borderRadius} backgroundColor={backgroundColor} opacity={opacity}>
+			<InputContainer borderRadius={borderRadius} backgroundColor={backgroundColor}>
 				<IconContainer>
 					<SearchButton onClick={clickFunction}>
-						<SearchIcon />
+						<SearchIcon color={iconColor} opacity={opacity}/>
 					</SearchButton>
 				</IconContainer>
 				<WhiteInputBox placeholder={placeholder}/>

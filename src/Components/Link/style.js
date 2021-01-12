@@ -52,18 +52,6 @@ export const PurpleContainer = styled.div`
 	align-self: center;
 `;
 
-export const WhiteContainer = styled.div`
-	color: white;
-	width: 15%;
-	height: 15%;
-`;
-
-export const BlackContainer = styled.div`
-	color: #262a41;
-	width: 15%;
-	height: 15%;
-`;
-
 export const TextContainer = styled.div`
 	display: flex;
 	width: 130px;

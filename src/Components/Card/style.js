@@ -1,23 +1,28 @@
 import styled from 'styled-components';
-import {FaEnvelope, FaPhoneAlt, FaArrowRight} from 'react-icons/fa';
+import {FaRegEnvelope, FaPhoneAlt, FaArrowRight} from 'react-icons/fa';
+
+export const CardTotal = styled.div`
+    width: 100%;
+    height: 72%;
+`
 
 export const CardStyle = styled.div`
     display: flex;
     flex-direction: row;
-    width: 90%;
-    height: 19%;
+    width: 94%;
+    height: 26%;
     background-color: #FCFCFF;
     margin-top: 30px;
     border-radius: 18px;
     box-shadow: 10px 10px 40px #0000000D;
-
 `
 
 export const ImageStyle = styled.div `
     display: flex;
-    flex-basis: 20%;
-    width: 100%;
-    height: 100%;
+    flex-basis: 15%;
+    margin-top: 30px;
+    width: 50%;
+    height: 60%;
     justify-content: center;
     align-items: center;
     margin-left: 15px;
@@ -25,7 +30,7 @@ export const ImageStyle = styled.div `
 
 export const InformationStyle = styled.div `
     display: flex;
-    flex-basis: 70%;
+    flex-basis: 75%;
     width: 100%;
     height: 100%;
     flex-direction: column;
@@ -59,22 +64,18 @@ export const AddressStyle = styled.div `
     height: 30%
 `
 
-export const EnvelopeIcon = styled(FaEnvelope) `
+export const EnvelopeIcon = styled(FaRegEnvelope) `
     color: black;
     opacity: 0.4;
-    font-size: 13px;
-    width: 10px;
-    height: 10px;
-    margin-right: 10px;
+    font-size: 15px;
+    margin-right: 15px;
 `
 
 export const PhoneIcon = styled(FaPhoneAlt) `
     color: black;
     opacity: 0.4;
-    font-size: 13px;
-    width: 10px;
-    height: 10px;
-    margin-right: 10px;
+    font-size: 14px;
+    margin-right: 15px;
 `
 
 export const IconStyle = styled.div `
@@ -83,7 +84,7 @@ export const IconStyle = styled.div `
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-right: 10px;
+    margin-right: 15px;
 `
 
 export const AngleStyle = styled(FaArrowRight)`
@@ -101,6 +102,6 @@ export const NavButtonStyle = styled.div `
     border-radius: 10px;
     align-self: flex-end;
     margin-bottom: 15px;
-    margin-right: 15px;
-    box-shadow: 2px 15px 30px #30BBB5;
+    box-shadow: 2px 15px 30px #30BBB574;
+    cursor: pointer;
 `
