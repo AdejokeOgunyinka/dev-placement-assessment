@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Container from '../Container/index';
 import Text from '../Text/index';
 import Input from '../Input/index';
@@ -24,33 +23,61 @@ import {
 	RightArrowStyle
 } from './style';
 import { Redirect } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import Switch from 'react-switch';
+import { CSVDownload } from 'react-csv';
 
-const MaleUrl = 'https://randomuser.me/api/?gender=male&results=3';
-
-const MalesScreen = ({ children }) => {
-	const getUrl = window.location.href.split("/");
-	 const page = getUrl[getUrl.length - 1];
-	//  console.log({page})
+const Template = ({ children, header, url }) => {
+	const getUrl = window.location.href.split('/');
+	const page = getUrl[getUrl.length - 1];
+	// console.log({ page });
 	const [ active, setActive ] = useState(page);
-	const [redirect, setRedirect] = useState(false)
+	const [ redirect, setRedirect ] = useState(false);
 	const handleActivePage = (page) => {
-		setActive(page==="all"?"":page)
-		setRedirect(true)
-		
-	}
-	
-	const [checked, setChecked] = useState(false);
-	const handleChange = nextChecked => {
-		setChecked(nextChecked);
+		setActive(page === 'all' ? '' : page);
+		setRedirect(true);
 	};
 
-	return (
-		<Container type="background">
-		{redirect && <Redirect to={`/${active}`} />}
+	const [ checked, setChecked ] = useState(false);
+	const [ values, setItems ] = useState([]);
+	const [ paginatedValues, setPaginatedValues ] = useState([]);
 
+	const [searchQuery, setSearchQuery] = useState([]);
+
+	const handleChange = (nextChecked) => {
+		setChecked(nextChecked);
+	};
+	const [ currentPage, setPage ] = useState(1);
+	const handlePagination = (type) => {
+		if (type === 'next') {
+			setPage(currentPage + 1);
+			const start = (currentPage + 1) * 3 - 3;
+			const stop = start + 3;
+			setPaginatedValues(values.slice(start, stop));
+		} else if (type === 'prev') {
+			setPage(currentPage - 1);
+			const start = currentPage - 1 === 0 ? 0 : (currentPage - 1) * 3 - 3;
+			const stop = start + 3;
+			setPaginatedValues(values.slice(start, stop));
+		}
+	};
+	const fetchFunction = async () => {
+		const data = await fetch( url );
+		const results = await data.json();
+		console.log(results.results)
+		setItems(() => [ ...results.results ]);
+		setPaginatedValues(() => [ ...results.results.slice(0, 3) ]);
+		localStorage.setItem('users', JSON.stringify(results.results));
+	};
+	useEffect(() => {
+		fetchFunction();
+	}, []);
+
+	return (
+		<Container className="page" type="background">
+			{redirect && <Redirect to={`/${active}`} />}
 			<Container type="left-container">
 				<HeaderStyle>
 					<Text color="white" size="super-large" fontSize="37px">
@@ -67,7 +94,13 @@ const MalesScreen = ({ children }) => {
 					</Text>
 				</WelcomeStyle>
 				<SearchStyle>
-					<Input type="search" placeholder="Find a user" iconColor="white" backgroundColor=" #3c3f54" borderRadius="20px" />
+					<Input
+						type="search"
+						placeholder="Find a user"
+						iconColor="white"
+						backgroundColor=" #3c3f54"
+						borderRadius="20px"
+					/>
 				</SearchStyle>
 				<ShowUserStyle>
 					<Text color="white" size="large" fontSize="" opacity="0.7">
@@ -83,7 +116,7 @@ const MalesScreen = ({ children }) => {
 						textFontSize="12px"
 						textOpacity="0.6"
 						active={active}
-						setActive={handleActivePage}
+						setActive={setActive}
 					>
 						All Users
 					</LinkBox>
@@ -117,7 +150,7 @@ const MalesScreen = ({ children }) => {
 			<Container type="right-container">
 				<SecondHeader>
 					<Text color="black" size="extra-large" fontSize="28px">
-						Male Users
+						{header}
 					</Text>
 				</SecondHeader>
 				<FilterStyle>
@@ -132,8 +165,10 @@ const MalesScreen = ({ children }) => {
 							placeholder="Find in list"
 							backgroundColor="#E2E2EA"
 							borderRadius="30px"
-                            iconColor="black"
-                            opacity="0.2"
+							iconColor="black"
+							opacity="0.2"
+							changeFunction={query => setSearchQuery(query)}
+							clickFunction={name => paginatedValues.name === {searchQuery}}
 						/>
 					</CardSearchStyle>
 					<CountryListStyle>
@@ -152,21 +187,30 @@ const MalesScreen = ({ children }) => {
 						className="react-switch"
 						id="material-switch"
 					/>
-					<Text color="black" size="large" fontSize="13px" opacity="0.7" padding="5px">Show Country</Text>
+					<Text color="black" size="large" fontSize="13px" opacity="0.7" padding="5px">
+						Show Country
+					</Text>
 				</SearchSectionStyle>
-				<Card fetchUrl={MaleUrl} />
-
+				<Card paginatedValues={paginatedValues} page={page} />
 				<FooterStyle>
-					<DownloadStyle>
+					<DownloadStyle onClick={<CSVDownload data={paginatedValues} target="_blank" />}>
 						<Text color="white" size="large" fontSize="13px">
 							Download results
 						</Text>
 					</DownloadStyle>
 					<NavigationStyle>
-						<LeftArrowStyle>
+						<LeftArrowStyle
+							onClick={() => {
+								handlePagination('prev');
+							}}
+						>
 							<LeftArrow />
 						</LeftArrowStyle>
-						<RightArrowStyle>
+						<RightArrowStyle
+							onClick={() => {
+								handlePagination('next');
+							}}
+						>
 							<RightArrow />
 						</RightArrowStyle>
 					</NavigationStyle>
@@ -176,4 +220,4 @@ const MalesScreen = ({ children }) => {
 	);
 };
 
-export default MalesScreen;
+export default Template;

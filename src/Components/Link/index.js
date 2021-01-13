@@ -17,7 +17,6 @@ const LinkBox = ({ user, icon, textColor, textSize, textFontSize, textOpacity, c
 		return (
 			<LinkContainer active={page} user={user} onClick={() => setActive('male')}>
 				<BlueContainer>
-
 					<Icon className={icon} />
 				</BlueContainer>
 				<TextContainer>

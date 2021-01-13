@@ -3,7 +3,9 @@ import Container from '../Container/index';
 import Text from '../Text/index';
 import Input from '../Input/index';
 import LinkBox from '../Link/index';
-import Card from '../Card/index';
+import Thumbnail from '../Thumbnail/index';
+// import Card from '../Card/index';
+import {useHistory } from 'react-router-dom';
 import {
 	HeaderStyle,
 	WelcomeStyle,
@@ -15,24 +17,38 @@ import {
 	SearchSectionStyle,
 	CardSearchStyle,
 	CountryListStyle,
+    ReturnSectionStyle,
+    BackArrow,
 	FooterStyle,
 	DownloadStyle,
 	NavigationStyle,
 	LeftArrow,
 	RightArrow,
 	LeftArrowStyle,
-	RightArrowStyle
+    RightArrowStyle,
+    ProfileStyle,
+    PictureStyle,
+    ProfileInfoStyle,
+    NameAgeStyle,
+    EmailEnvelope,
+    ProfileEmailStyle,
+    ProfileDateStyle,
+    PhoneIcon,
+    CellIcon,
+    ProfilePhoneStyle,
+    ProfileCellStyle
 } from './style';
+
 import { Redirect } from 'react-router-dom';
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import Switch from 'react-switch';
 
-const FemaleUrl = 'https://randomuser.me/api/?gender=female&results=3';
+// const GeneralUrl = 'https://randomuser.me/api/?results=3';
 
-const FemalesScreen = ({ children }) => {
+const SpecificUser = ({ children, paginatedValues }) => {
 	const getUrl = window.location.href.split("/");
-	 const page = getUrl[getUrl.length - 1];
+	 const page = getUrl[getUrl.length - 2];
 	//  console.log({page})
 	const [ active, setActive ] = useState(page);
 	const [redirect, setRedirect] = useState(false)
@@ -46,7 +62,11 @@ const FemalesScreen = ({ children }) => {
 	const handleChange = nextChecked => {
 		setChecked(nextChecked);
 	};
+	const userId = getUrl[getUrl.length - 1];
+	const users = JSON.parse(localStorage.getItem("users"))
+	const currentUser = users.filter(user=> user.id.value===userId)[0]
 
+	const history = useHistory();
 
 	return (
 		<Container type="background">
@@ -83,7 +103,7 @@ const FemalesScreen = ({ children }) => {
 						textFontSize="12px"
 						textOpacity="0.6"
 						active={active}
-						setActive={handleActivePage}
+						setActive={setActive}
 					>
 						All Users
 					</LinkBox>
@@ -117,7 +137,7 @@ const FemalesScreen = ({ children }) => {
 			<Container type="right-container">
 				<SecondHeader>
 					<Text color="black" size="extra-large" fontSize="28px">
-						Female Users
+						User List
 					</Text>
 				</SecondHeader>
 				<FilterStyle>
@@ -154,8 +174,40 @@ const FemalesScreen = ({ children }) => {
 					/>
 					<Text color="black" size="large" fontSize="13px" opacity="0.7" padding="5px">Show Country</Text>
 				</SearchSectionStyle>
-				<Card fetchUrl={FemaleUrl} />
-				
+
+				<ReturnSectionStyle onClick={() => window.history.go(-1)}>
+                    <BackArrow/>
+                    <Text color="black" size="medium" fontSize="17px" opacity="0.4" >RESULTS</Text>
+                </ReturnSectionStyle>
+
+                <ProfileStyle>
+                    <PictureStyle>
+                        <Thumbnail url={currentUser.picture.large}/>
+                    </PictureStyle>
+                    <ProfileInfoStyle>
+                        <NameAgeStyle>
+                            <Text color="black" size="extra-large" fontSize="25px"> {`${currentUser.name.title}. ${currentUser.name.first} ${currentUser.name.last}`} </Text>
+                            <Text color="black" size="small" fontSize="30px" padding="5px"> {currentUser.dob.age} </Text>
+                        </NameAgeStyle>
+                        <Text color="black" size="small" fontSize="18px" opacity="0.7"> {`${currentUser.location.street.number}, ${currentUser.location.street.name}, ${currentUser.location.city}, ${currentUser.location.state}`}</Text>
+                        <ProfileEmailStyle>
+                            <EmailEnvelope/>
+                            <Text color="black" size="large" fontSize="14px" opacity="0.4">{currentUser.email}</Text>
+                        </ProfileEmailStyle>
+                        <ProfileDateStyle>
+                            <Text color="black" size="large" fontSize="13px" opacity="0.6">{`JOINED: ${currentUser.registered.date.split("T")[0]}`}</Text>
+                        </ProfileDateStyle>
+                        <ProfilePhoneStyle>
+                            <PhoneIcon />
+                            <Text color="black" size="large" fontSize="13px" opacity="0.4">{currentUser.phone}</Text>
+                        </ProfilePhoneStyle>
+                        <ProfileCellStyle>
+                            <CellIcon/>
+                            <Text color="black" size="large" fontSize="13px" opacity="0.4">{currentUser.cell}</Text>
+                        </ProfileCellStyle>
+                    </ProfileInfoStyle>
+                </ProfileStyle>
+
 				<FooterStyle>
 					<DownloadStyle>
 						<Text color="white" size="large" fontSize="13px">
@@ -176,4 +228,4 @@ const FemalesScreen = ({ children }) => {
 	);
 };
 
-export default FemalesScreen;
+export default SpecificUser;

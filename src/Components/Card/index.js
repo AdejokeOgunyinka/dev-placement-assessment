@@ -15,11 +15,11 @@ import {
 } from './style';
 import Thumbnail from '../Thumbnail/index';
 import Text from '../Text/index';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 
-const Card = ({ children, fetchUrl, paginatedValues }) => {
+const Card = ({ children, page, paginatedValues }) => {
 	const history = useHistory()
 
 	return (
@@ -55,7 +55,7 @@ const Card = ({ children, fetchUrl, paginatedValues }) => {
 							</IconStyle>
 						</OtherStyle>
 					</InformationStyle>
-					<ButtonStyle onClick={()=>history.push(`/user/${result.id.value}`)}>
+					<ButtonStyle onClick={({paginatedValues})=>history.push(`/user/${result.id.value}`)}>
 						<NavButtonStyle>
 							<AngleStyle />
 						</NavButtonStyle>
