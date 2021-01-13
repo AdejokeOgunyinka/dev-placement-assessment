@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from '../Container/index';
 import Text from '../Text/index';
 import Input from '../Input/index';
@@ -23,17 +23,18 @@ import {
 	LeftArrowStyle,
 	RightArrowStyle
 } from './style';
-import { Redirect } from 'react-router-dom';
+import { generatePath, Redirect } from 'react-router-dom';
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import Switch from 'react-switch';
+import { CSVDownload } from 'react-csv';
 
-const GeneralUrl = 'https://randomuser.me/api/?results=3';
+const GeneralUrl = 'https://randomuser.me/api/?results=15';
 
 const UsersScreen = ({ children }) => {
 	const getUrl = window.location.href.split('/');
 	const page = getUrl[getUrl.length - 1];
-	console.log({ page });
+	// console.log({ page });
 	const [ active, setActive ] = useState(page);
 	const [ redirect, setRedirect ] = useState(false);
 	const handleActivePage = (page) => {
@@ -41,14 +42,41 @@ const UsersScreen = ({ children }) => {
 		setRedirect(true);
 	};
 
-	const [checked, setChecked] = useState(false);
-	const handleChange = nextChecked => {
+	const [ checked, setChecked ] = useState(false);
+	const [ values, setItems ] = useState([]);
+	const [paginatedValues, setPaginatedValues] = useState([])
+
+	const handleChange = (nextChecked) => {
 		setChecked(nextChecked);
 	};
-
+	const [ currentPage, setPage ] = useState(1);
+	const handlePagination = (type) => {
+		if (type === 'next') {
+			setPage(currentPage + 1);
+			const start = (currentPage + 1) * 3 - 3;
+			const stop = start + 3;
+			setPaginatedValues(values.slice(start,stop))
+		} else if (type ==="prev") {
+			setPage(currentPage - 1);
+			const start = currentPage - 1 === 0 ? 0 : (currentPage - 1) * 3 - 3;
+			const stop = start + 3;
+			setPaginatedValues(values.slice(start,stop))
+		}
+	};
+	const fetchFunction = async () => {
+		const data = await fetch(GeneralUrl);
+		const results = await data.json()
+		// console.log(results.results)
+		setItems(()=>[...results.results]);
+		setPaginatedValues(()=>[...results.results.slice(0,3)]);
+		localStorage.setItem("users", JSON.stringify(results.results))
+	};
+	useEffect(() => {
+		fetchFunction();
+	}, []);
 
 	return (
-		<Container type="background">
+		<Container className="page" type="background">
 			{redirect && <Redirect to={`/${active}`} />}
 			<Container type="left-container">
 				<HeaderStyle>
@@ -149,28 +177,30 @@ const UsersScreen = ({ children }) => {
 						onChange={handleChange}
 						onColor="#75d6d1"
 						onHandleColor="white"
-						handleDiameter={10}
+						handleDiameter={17}
 						uncheckedIcon={false}
 						checkedIcon={false}
-						height={30}
-						width={50}
+						height={19}
+						width={33}
 						className="react-switch"
 						id="material-switch"
 					/>
-					<Text color="black" size="large" fontSize="13px" opacity="0.7" padding="5px">Show Country</Text>
+					<Text color="black" size="large" fontSize="13px" opacity="0.7" padding="5px">
+						Show Country
+					</Text>
 				</SearchSectionStyle>
-				<Card fetchUrl={GeneralUrl} />
+				<Card paginatedValues={paginatedValues} />
 				<FooterStyle>
-					<DownloadStyle>
+					<DownloadStyle onClick={<CSVDownload data={page} target="_blank" />}>
 						<Text color="white" size="large" fontSize="13px">
 							Download results
 						</Text>
 					</DownloadStyle>
 					<NavigationStyle>
-						<LeftArrowStyle>
+						<LeftArrowStyle onClick={() => handlePagination('prev')}>
 							<LeftArrow />
 						</LeftArrowStyle>
-						<RightArrowStyle>
+						<RightArrowStyle onClick={() => handlePagination('next')}>
 							<RightArrow />
 						</RightArrowStyle>
 					</NavigationStyle>

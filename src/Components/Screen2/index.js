@@ -14,7 +14,8 @@ import {
 	SecondHeader,
 	FilterStyle,
 	SearchSectionStyle,
-    CardSearchStyle,
+	CardSearchStyle,
+	CountryListStyle,
     ReturnSectionStyle,
     BackArrow,
 	FooterStyle,
@@ -36,14 +37,18 @@ import {
     ProfilePhoneStyle,
     ProfileCellStyle
 } from './style';
+
 import { Redirect } from 'react-router-dom';
+import Select from 'react-select';
+import countryList from 'react-select-country-list';
+import Switch from 'react-switch';
 
 // const GeneralUrl = 'https://randomuser.me/api/?results=3';
 
 const SpecificUserScreen = ({ children }) => {
 	const getUrl = window.location.href.split("/");
-	 const page = getUrl[getUrl.length - 1];
-	 console.log({page})
+	 const page = getUrl[getUrl.length - 2];
+	//  console.log({page})
 	const [ active, setActive ] = useState(page);
 	const [redirect, setRedirect] = useState(false)
 	const handleActivePage = (page) => {
@@ -51,6 +56,14 @@ const SpecificUserScreen = ({ children }) => {
 		setRedirect(true)
 		
 	}
+
+	const [checked, setChecked] = useState(false);
+	const handleChange = nextChecked => {
+		setChecked(nextChecked);
+	};
+	const userId = getUrl[getUrl.length - 1];
+	const users = JSON.parse(localStorage.getItem("users"))
+	const currentUser = users.filter(user=> user.id.value===userId)[0]
 
 	return (
 		<Container type="background">
@@ -140,37 +153,54 @@ const SpecificUserScreen = ({ children }) => {
                             opacity="0.2"
 						/>
 					</CardSearchStyle>
+					<CountryListStyle>
+						<Select placeholder=" Country " options={countryList().getData()} />
+					</CountryListStyle>
+					<Switch
+						checked={checked}
+						onChange={handleChange}
+						onColor="#75d6d1"
+						onHandleColor="white"
+						handleDiameter={17}
+						uncheckedIcon={false}
+						checkedIcon={false}
+						height={19}
+						width={33}
+						className="react-switch"
+						id="material-switch"
+					/>
+					<Text color="black" size="large" fontSize="13px" opacity="0.7" padding="5px">Show Country</Text>
 				</SearchSectionStyle>
 
-				<ReturnSectionStyle>
+				<ReturnSectionStyle onClick={() => page}>
                     <BackArrow/>
                     <Text color="black" size="medium" fontSize="17px" opacity="0.4" >RESULTS</Text>
                 </ReturnSectionStyle>
 
                 <ProfileStyle>
                     <PictureStyle>
-                        <Thumbnail url="https://randomuser.me/api/portraits/men/73.jpg"/>
+                        <Thumbnail url={currentUser.picture.large}/>
                     </PictureStyle>
                     <ProfileInfoStyle>
                         <NameAgeStyle>
-                            <Text color="black" size="extra-large" fontSize="25px"> Mrs. Shalom Chioma </Text>
-                            <Text color="black" size="small" fontSize="30px" padding="10px"> 25 </Text>
+                            <Text color="black" size="extra-large" fontSize="25px"> {`${currentUser.name.title}. ${currentUser.name.first} ${currentUser.name.last}`} </Text>
+                            <Text color="black" size="small" fontSize="30px" padding="5px"> {currentUser.dob.age} </Text>
                         </NameAgeStyle>
-                        <Text color="black" size="small" fontSize="18px" opacity="0.7"> 9278 new road, kilcoole, waterford</Text>
+                        <Text color="black" size="small" fontSize="18px" opacity="0.7"> {`${currentUser.location.street.number}, ${currentUser.location.street.name}, ${currentUser.location.city}, ${currentUser.location.state}`}</Text>
                         <ProfileEmailStyle>
                             <EmailEnvelope/>
-                            <Text color="black" size="large" fontSize="14px" opacity="0.4">brad.gibson@example.com</Text>
+                            <Text color="black" size="large" fontSize="14px" opacity="0.4">{currentUser.email}</Text>
                         </ProfileEmailStyle>
                         <ProfileDateStyle>
-                            <Text color="black" size="large" fontSize="13px" opacity="0.6">JOINED: 2002-05-21</Text>
+                            <Text color="black" size="large" fontSize="13px" opacity="0.6">{`JOINED: ${currentUser.registered.date.split("T")[0]}`}</Text>
                         </ProfileDateStyle>
                         <ProfilePhoneStyle>
                             <PhoneIcon />
-                            <Text color="black" size="large" fontSize="13px" opacity="0.4">011-962-7516</Text>
+                            <Text color="black" size="large" fontSize="13px" opacity="0.4">{currentUser.phone}</Text>
                         </ProfilePhoneStyle>
                         <ProfileCellStyle>
                             <CellIcon/>
-                            <Text color="black" size="large" fontSize="13px" opacity="0.4">011-962-7516</Text>
+                            <Text color="black" size="large" fontSize="13px" opacity="0.4">{currentUser.cell}</Text>
                         </ProfileCellStyle>
                     </ProfileInfoStyle>
                 </ProfileStyle>

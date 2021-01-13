@@ -14,6 +14,7 @@ import {
 	FilterStyle,
 	SearchSectionStyle,
 	CardSearchStyle,
+	CountryListStyle,
 	FooterStyle,
 	DownloadStyle,
 	NavigationStyle,
@@ -23,13 +24,16 @@ import {
 	RightArrowStyle
 } from './style';
 import { Redirect } from 'react-router-dom';
+import Select from 'react-select';
+import countryList from 'react-select-country-list';
+import Switch from 'react-switch';
 
 const FemaleUrl = 'https://randomuser.me/api/?gender=female&results=3';
 
 const FemalesScreen = ({ children }) => {
 	const getUrl = window.location.href.split("/");
 	 const page = getUrl[getUrl.length - 1];
-	 console.log({page})
+	//  console.log({page})
 	const [ active, setActive ] = useState(page);
 	const [redirect, setRedirect] = useState(false)
 	const handleActivePage = (page) => {
@@ -37,6 +41,12 @@ const FemalesScreen = ({ children }) => {
 		setRedirect(true)
 		
 	}
+
+	const [checked, setChecked] = useState(false);
+	const handleChange = nextChecked => {
+		setChecked(nextChecked);
+	};
+
 
 	return (
 		<Container type="background">
@@ -126,6 +136,23 @@ const FemalesScreen = ({ children }) => {
                             opacity="0.2"
 						/>
 					</CardSearchStyle>
+					<CountryListStyle>
+						<Select placeholder=" Country " options={countryList().getData()} />
+					</CountryListStyle>
+					<Switch
+						checked={checked}
+						onChange={handleChange}
+						onColor="#75d6d1"
+						onHandleColor="white"
+						handleDiameter={17}
+						uncheckedIcon={false}
+						checkedIcon={false}
+						height={19}
+						width={33}
+						className="react-switch"
+						id="material-switch"
+					/>
+					<Text color="black" size="large" fontSize="13px" opacity="0.7" padding="5px">Show Country</Text>
 				</SearchSectionStyle>
 				<Card fetchUrl={FemaleUrl} />
 				

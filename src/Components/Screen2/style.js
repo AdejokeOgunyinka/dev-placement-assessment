@@ -54,7 +54,7 @@ export const SearchSectionStyle = styled.div`
     margin-top: 2%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    align-items: center;
 `
 
 export const FooterStyle = styled.div`
@@ -71,6 +71,17 @@ export const CardSearchStyle = styled.div`
     height: 100%;
     margin-top: 1%;
 `
+export const CountryListStyle = styled.div `
+    flex-basis: 25%;
+    height: 100%;
+    margin-top: 1%;
+    margin-left: 20px;
+    margin-right: 20px;
+    ${'' /* display: flex; */}
+    justify-content: center;
+    align-items: center;
+`
+
 export const ReturnSectionStyle = styled.div`
     width: 100%;
     height: 13%;
@@ -78,6 +89,7 @@ export const ReturnSectionStyle = styled.div`
     flex-direction: row;
     align-items: center;
     background: transparent;
+    cursor: pointer;
 `
 
 export const BackArrow = styled(FaArrowLeft)`
@@ -114,7 +126,7 @@ export const ProfileInfoStyle = styled.div`
 
 export const NameAgeStyle = styled.div`
     width: 100%;
-    height: 7%;
+    height: 10%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -158,6 +170,7 @@ export const ProfilePhoneStyle = styled.div`
     flex-direction: row;
     align-items: center;
     background: transparent;
+    margin-top: 15px;
 `
 
 export const PhoneIcon = styled(FaPhoneAlt)`
@@ -193,6 +206,7 @@ export const DownloadStyle = styled.div `
     border-radius: 20px;
     display: flex;
     justify-content: center;
+    cursor: pointer;
 `
 
 export const NavigationStyle = styled.div `

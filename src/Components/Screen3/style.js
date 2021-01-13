@@ -17,7 +17,7 @@ export const WelcomeStyle = styled.div`
 `
 
 export const SearchStyle = styled.div`
-    width: 80%;
+    width: 85%;
     height: 10.5%;
     margin-top: 53px;
 `
@@ -54,7 +54,7 @@ export const SearchSectionStyle = styled.div`
     margin-top: 2%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    align-items: center;
 `
 
 export const FooterStyle = styled.div`
@@ -67,9 +67,19 @@ export const FooterStyle = styled.div`
 `
 
 export const CardSearchStyle = styled.div`
-    width: 45%;
+    flex-basis: 40%;
     height: 100%;
     margin-top: 1%;
+`
+export const CountryListStyle = styled.div `
+    flex-basis: 25%;
+    height: 100%;
+    margin-top: 1%;
+    margin-left: 20px;
+    margin-right: 20px;
+    ${'' /* display: flex; */}
+    justify-content: center;
+    align-items: center;
 `
 
 export const DownloadStyle = styled.div `
@@ -80,6 +90,7 @@ export const DownloadStyle = styled.div `
     border-radius: 20px;
     display: flex;
     justify-content: center;
+    cursor: pointer;
 `
 
 export const NavigationStyle = styled.div `

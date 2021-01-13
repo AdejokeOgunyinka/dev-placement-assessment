@@ -16,24 +16,15 @@ import {
 import Thumbnail from '../Thumbnail/index';
 import Text from '../Text/index';
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
-const Card = ({ children, fetchUrl }) => {
-	const [ values, setItems ] = useState([]);
-	const fetchFunction = async () => {
-		const data = await fetch(fetchUrl);
-		const results = await data.json()
-		console.log(results.results)
-		setItems(()=>[...results.results]);
-	};
 
-	useEffect(() => {
-		fetchFunction();
-	}, []);
-
+const Card = ({ children, fetchUrl, paginatedValues }) => {
+	const history = useHistory()
 
 	return (
 		<CardTotal >
-			{values?.map((result) => (
+			{paginatedValues?.map((result) => (
 				<CardStyle>
 					<ImageStyle>
 						<Thumbnail url={result.picture['large']} />
@@ -64,7 +55,7 @@ const Card = ({ children, fetchUrl }) => {
 							</IconStyle>
 						</OtherStyle>
 					</InformationStyle>
-					<ButtonStyle>
+					<ButtonStyle onClick={()=>history.push(`/user/${result.id.value}`)}>
 						<NavButtonStyle>
 							<AngleStyle />
 						</NavButtonStyle>

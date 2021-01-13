@@ -9,6 +9,7 @@ export const LinkContainer = styled.div`
 	outline: none;
 	justify-content: center;
 	align-items: center;
+	cursor: pointer;
 	${({ active, user }) =>
 		active === user &&
 		`
@@ -21,7 +22,7 @@ export const BlueContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 100px;
+	width: 90px;
 	height: 100px;
 	border-radius: 23%;
 	flex-basis: 90%;
@@ -33,7 +34,7 @@ export const PinkContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 100px;
+	width: 90px;
 	height: 100px;
 	border-radius: 23%;
 	flex-basis: 90%;
@@ -45,7 +46,7 @@ export const PurpleContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 100px;
+	width: 90px;
 	height: 100px;
 	border-radius: 23%;
 	flex-basis: 90%;

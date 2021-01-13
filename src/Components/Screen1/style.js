@@ -17,7 +17,7 @@ export const WelcomeStyle = styled.div`
 `
 
 export const SearchStyle = styled.div`
-    width: 80%;
+    width: 85%;
     height: 10.5%;
     margin-top: 53px;
 `
@@ -77,6 +77,7 @@ export const CountryListStyle = styled.div `
     margin-top: 1%;
     margin-left: 20px;
     margin-right: 20px;
+    ${'' /* display: flex; */}
     justify-content: center;
     align-items: center;
 `
@@ -89,6 +90,7 @@ export const DownloadStyle = styled.div `
     border-radius: 20px;
     display: flex;
     justify-content: center;
+    cursor: pointer;
 `
 
 export const NavigationStyle = styled.div `

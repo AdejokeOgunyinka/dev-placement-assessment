@@ -21,7 +21,7 @@ export const SearchButton = styled.button`
 
 export const InputBox = styled.input`
 	background-color: transparent;
-	width: 35%;
+	width: 33%;
 	height: 30%;
 	box-sizing: border-box;
 	align-self: center;
@@ -39,7 +39,7 @@ export const InputBox = styled.input`
 
 export const WhiteInputBox = styled.input`
 	background-color: transparent;
-	width: 30%;
+	width: 35%;
 	height: 25%;
 	box-sizing: border-box;
 	align-self: center;
