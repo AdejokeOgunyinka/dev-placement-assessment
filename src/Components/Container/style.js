@@ -9,6 +9,16 @@ export const BackgroundContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	box-sizing: border-box;
+	@media(max-width:800px ){
+		flex-direction: column;
+		min-height: 150%;
+	}
+
+	@media(max-width: 540px){
+		flex-direction: column;
+		min-height: 200%;
+		min-width:250%;
+	}
 `;
 
 export const LeftContainer = styled.div`

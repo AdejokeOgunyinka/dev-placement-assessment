@@ -1,4 +1,4 @@
-Link to the deployed site:
+Link to the deployed site: https://ogunyinka-joke-devplacement-assessment.netlify.app/
 
 Badge to the CI with tests passing:
 
