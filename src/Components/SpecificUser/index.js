@@ -66,7 +66,7 @@ const SpecificUser = ({ children, paginatedValues }) => {
 	const users = JSON.parse(localStorage.getItem("users"))
 	const currentUser = users.filter(user=> user.id.value===userId)[0]
 
-	const history = useHistory();
+	// const history = useHistory();
 
 	return (
 		<Container type="background">
