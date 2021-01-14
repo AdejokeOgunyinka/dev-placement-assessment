@@ -1,7 +1,7 @@
 ### Link to the deployed site: 
 https://ogunyinka-joke-devplacement-assessment.netlify.app/
 
-### Badge to the CI with tests passing: 
+### Badge to the CI : https://travis-ci.com/AdejokeOgunyinka/dev-placement-assessment.svg?token=eAgJ52sWGWRRP4yF9zhg&branch=master
 
 ### Technologies used in the project:
 I made use of Reactjs as the framework for this project, which included installing a couple of packages e.g
