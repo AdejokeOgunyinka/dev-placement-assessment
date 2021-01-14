@@ -200,13 +200,13 @@ const Template = ({ children, header, url }) => {
 				</SearchSectionStyle>
 				<Card paginatedValues={paginatedValues} page={page} />
 				<FooterStyle>
-					<DownloadStyle>
-						<Text color="white" size="large" fontSize="13px">
-							<CSVLink data={csv} style={{textDecoration:"none", color:"white"}}>
+					<CSVLink data={csv} style={{textDecoration:"none", color:"white", width: '200px'}}>
+						<DownloadStyle>
+							<Text color="white" size="large" fontSize="13px">
 								Download results
-							</CSVLink>
-						</Text>
-					</DownloadStyle>
+							</Text>
+						</DownloadStyle>
+					</CSVLink>
 					<NavigationStyle>
 						<LeftArrowStyle
 							onClick={() => {

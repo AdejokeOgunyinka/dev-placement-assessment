@@ -209,16 +209,16 @@ const SpecificUser = ({ children, paginatedValues }) => {
                 </ProfileStyle>
 
 				<FooterStyle>
-					<DownloadStyle>
+					<DownloadStyle disabled="true">
 						<Text color="white" size="large" fontSize="13px">
 							Download results
 						</Text>
 					</DownloadStyle>
 					<NavigationStyle>
-						<LeftArrowStyle>
+						<LeftArrowStyle >
 							<LeftArrow />
 						</LeftArrowStyle>
-						<RightArrowStyle>
+						<RightArrowStyle >
 							<RightArrow />
 						</RightArrowStyle>
 					</NavigationStyle>

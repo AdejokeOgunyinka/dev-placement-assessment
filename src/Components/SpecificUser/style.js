@@ -207,6 +207,7 @@ export const DownloadStyle = styled.div `
     display: flex;
     justify-content: center;
     cursor: pointer;
+    disabled: true;
 `
 
 export const NavigationStyle = styled.div `
