@@ -103,7 +103,7 @@ const SpecificUser = ({ children, paginatedValues }) => {
 						textFontSize="12px"
 						textOpacity="0.6"
 						active={active}
-						setActive={setActive}
+						setActive={handleActivePage}
 					>
 						All Users
 					</LinkBox>
@@ -162,8 +162,8 @@ const SpecificUser = ({ children, paginatedValues }) => {
 					<Switch
 						checked={checked}
 						onChange={handleChange}
-						onColor="#75d6d1"
-						onHandleColor="white"
+						onColor="#8dd"
+						onHandleColor="#fff"
 						handleDiameter={17}
 						uncheckedIcon={false}
 						checkedIcon={false}

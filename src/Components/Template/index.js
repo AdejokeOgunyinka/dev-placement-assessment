@@ -44,16 +44,15 @@ const Template = ({ children, header, url }) => {
 	const [ values, setItems ] = useState([]);
 	const [ paginatedValues, setPaginatedValues ] = useState([]);
 
-	const [ searchQuery, setSearchQuery ] = useState([]);
 	const [ filteredData, setFilteredData ] = useState([]);
-	const [ country, setCountry] = useState([]);
+	// const [ country, setCountry] = useState([]);
 
 	const handleFiltering = (query) => {
 		const filtered = values.filter(
-			(name) =>
-				name.name.first.toLowerCase().includes(query.toLowerCase()) ||
-				name.name.last.toLowerCase().includes(query.toLowerCase()) ||
-				name.location.country.toLowerCase().includes(query.toLowerCase())
+			(person) =>
+				person.name.first.toLowerCase().includes(query.toLowerCase()) ||
+				person.name.last.toLowerCase().includes(query.toLowerCase()) ||
+				person.location.country.toLowerCase().includes(query.toLowerCase())
 		);
 		setFilteredData(filtered);
 		setPaginatedValues(() => [ ...filtered.slice(0, 3) ]);
@@ -64,6 +63,10 @@ const Template = ({ children, header, url }) => {
 	const csv = json2csvParser.parse({ paginatedValues });
 
 	// console.log(countryList().getValue());
+	// const handleCountry = selectedOption => {
+	// 	setCountry(selectedOption)
+	// 	console.log(`Option selected:`, selectedOption);
+	// };
 
 	const handleChange = (nextChecked) => {
 		setChecked(nextChecked);
@@ -205,15 +208,17 @@ const Template = ({ children, header, url }) => {
 						<Select
 							placeholder=" Country "
 							options={countryList().getData()}
+							onInputChange={(e) => handleFiltering(e.target.value)}
+							// selectedOption={(e) => console.log(e.selectedOption)}
 							// value={countryList().getValue()}
-							// onChange={(e) => console.log(e.target.value)}
+							// isOptionSelected={(e) => console.log(e)}
 						/>
 					</CountryListStyle>
 					<Switch
 						checked={checked}
 						onChange={handleChange}
-						onColor="#75d6d1"
-						onHandleColor="white"
+						onColor="#8dd"
+						onHandleColor="#fff"
 						handleDiameter={17}
 						uncheckedIcon={false}
 						checkedIcon={false}
