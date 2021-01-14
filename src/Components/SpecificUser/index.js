@@ -5,7 +5,7 @@ import Input from '../Input/index';
 import LinkBox from '../Link/index';
 import Thumbnail from '../Thumbnail/index';
 // import Card from '../Card/index';
-import {useHistory } from 'react-router-dom';
+// import {useHistory } from 'react-router-dom';
 import {
 	HeaderStyle,
 	WelcomeStyle,
