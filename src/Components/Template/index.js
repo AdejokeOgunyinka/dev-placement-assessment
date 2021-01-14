@@ -27,7 +27,7 @@ import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import Switch from 'react-switch';
-import { CSVDownload } from 'react-csv';
+import { CSVDownload, CSVLink } from 'react-csv';
 
 const Template = ({ children, header, url }) => {
 	const getUrl = window.location.href.split('/');
@@ -44,14 +44,18 @@ const Template = ({ children, header, url }) => {
 	const [ values, setItems ] = useState([]);
 	const [ paginatedValues, setPaginatedValues ] = useState([]);
 
-	const [searchQuery, setSearchQuery] = useState([]);
+	const [ searchQuery, setSearchQuery ] = useState([]);
+
+	const { Parser } = require('json2csv');
+	const json2csvParser = new Parser();
+	const csv = json2csvParser.parse({paginatedValues});
 
 	const handleChange = (nextChecked) => {
 		setChecked(nextChecked);
 	};
 
 	const [ currentPage, setPage ] = useState(1);
-	
+
 	const handlePagination = (type) => {
 		if (type === 'next') {
 			setPage(currentPage + 1);
@@ -65,14 +69,15 @@ const Template = ({ children, header, url }) => {
 			setPaginatedValues(values.slice(start, stop));
 		}
 	};
+
 	const fetchFunction = async () => {
-		const data = await fetch( url );
+		const data = await fetch(url);
 		const results = await data.json();
-		console.log(results.results)
 		setItems(() => [ ...results.results ]);
 		setPaginatedValues(() => [ ...results.results.slice(0, 3) ]);
 		localStorage.setItem('users', JSON.stringify(results.results));
 	};
+
 	useEffect(() => {
 		fetchFunction();
 	}, []);
@@ -169,8 +174,8 @@ const Template = ({ children, header, url }) => {
 							borderRadius="30px"
 							iconColor="black"
 							opacity="0.2"
-							changeFunction={query => setSearchQuery(query)}
-							clickFunction={name => paginatedValues.name === {searchQuery}}
+							changeFunction={(query) => setSearchQuery(query)}
+							clickFunction={(name) => paginatedValues.name === { searchQuery }}
 						/>
 					</CardSearchStyle>
 					<CountryListStyle>
@@ -195,9 +200,11 @@ const Template = ({ children, header, url }) => {
 				</SearchSectionStyle>
 				<Card paginatedValues={paginatedValues} page={page} />
 				<FooterStyle>
-					<DownloadStyle onClick={<CSVDownload data={paginatedValues} target="_blank" />}>
+					<DownloadStyle>
 						<Text color="white" size="large" fontSize="13px">
-							Download results
+							<CSVLink data={csv} style={{textDecoration:"none", color:"white"}}>
+								Download results
+							</CSVLink>
 						</Text>
 					</DownloadStyle>
 					<NavigationStyle>
