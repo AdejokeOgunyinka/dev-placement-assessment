@@ -13,5 +13,7 @@ jobs:
         run: yarn
       - name: Build
         run: yarn build
-      - name: Test
-        run: yarn test --watchAll=false
+      - name: npm test:ci
+        run: npm run test:ci
+        env:
+          CI: ""
