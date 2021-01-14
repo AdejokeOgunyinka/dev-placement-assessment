@@ -49,6 +49,7 @@ const Template = ({ children, header, url }) => {
 	const handleChange = (nextChecked) => {
 		setChecked(nextChecked);
 	};
+	
 	const [ currentPage, setPage ] = useState(1);
 	const handlePagination = (type) => {
 		if (type === 'next') {
