@@ -64,7 +64,6 @@ export const FooterStyle = styled.div`
     flex-direction: row;
     align-items: center;
     margin-top: 15px;
-    cursor: none !important;
     color: white;
     opacity: 0.4;
 `
@@ -209,7 +208,6 @@ export const DownloadStyle = styled.div `
     border-radius: 20px;
     display: flex;
     justify-content: center;
-    disabled: true;
 `
 
 export const NavigationStyle = styled.div `

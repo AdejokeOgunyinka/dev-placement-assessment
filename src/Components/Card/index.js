@@ -25,7 +25,7 @@ const Card = ({ children, page, paginatedValues }) => {
 	return (
 		<CardTotal >
 			{paginatedValues?.map((result) => (
-				<CardStyle>
+				<CardStyle key={result.id}>
 					<ImageStyle>
 						<Thumbnail url={result.picture['large']} />
 					</ImageStyle>

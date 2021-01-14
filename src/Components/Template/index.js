@@ -27,7 +27,7 @@ import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import Switch from 'react-switch';
-import { CSVDownload, CSVLink } from 'react-csv';
+import { CSVLink } from 'react-csv';
 
 const Template = ({ children, header, url }) => {
 	const getUrl = window.location.href.split('/');
@@ -45,10 +45,23 @@ const Template = ({ children, header, url }) => {
 	const [ paginatedValues, setPaginatedValues ] = useState([]);
 
 	const [ searchQuery, setSearchQuery ] = useState([]);
+	const [ filteredData, setFilteredData ] = useState([]);
+
+	const handleFiltering = (query) => {
+		const filtered = values.filter(
+			(name) =>
+				name.name.first.toLowerCase().includes(query.toLowerCase()) ||
+				name.name.last.toLowerCase().includes(query.toLowerCase())
+		);
+		setFilteredData(filtered);
+		setPaginatedValues(() => [ ...filtered.slice(0, 3) ]);
+	};
+
+	// console.log(paginatedValues[0]);
 
 	const { Parser } = require('json2csv');
 	const json2csvParser = new Parser();
-	const csv = json2csvParser.parse({paginatedValues});
+	const csv = json2csvParser.parse({ paginatedValues });
 
 	const handleChange = (nextChecked) => {
 		setChecked(nextChecked);
@@ -61,12 +74,20 @@ const Template = ({ children, header, url }) => {
 			setPage(currentPage + 1);
 			const start = (currentPage + 1) * 3 - 3;
 			const stop = start + 3;
-			setPaginatedValues(values.slice(start, stop));
+			if (filteredData.length > 0) {
+				setPaginatedValues(filteredData.slice(start, stop));
+			} else {
+				setPaginatedValues(values.slice(start, stop));
+			}
 		} else if (type === 'prev') {
 			setPage(currentPage - 1);
 			const start = currentPage - 1 === 0 ? 0 : (currentPage - 1) * 3 - 3;
 			const stop = start + 3;
-			setPaginatedValues(values.slice(start, stop));
+			if (filteredData.length > 0) {
+				setPaginatedValues(filteredData.slice(start, stop));
+			} else {
+				setPaginatedValues(values.slice(start, stop));
+			}
 		}
 	};
 
@@ -82,6 +103,7 @@ const Template = ({ children, header, url }) => {
 		fetchFunction();
 	}, []);
 
+	console.log(searchQuery);
 	return (
 		<Container className="page" type="background">
 			{redirect && <Redirect to={`/${active}`} />}
@@ -107,6 +129,7 @@ const Template = ({ children, header, url }) => {
 						iconColor="white"
 						backgroundColor=" #3c3f54"
 						borderRadius="20px"
+						changeFunction={(e) => handleFiltering(e.target.value)}
 					/>
 				</SearchStyle>
 				<ShowUserStyle>
@@ -174,8 +197,7 @@ const Template = ({ children, header, url }) => {
 							borderRadius="30px"
 							iconColor="black"
 							opacity="0.2"
-							changeFunction={(query) => setSearchQuery(query)}
-							clickFunction={(name) => paginatedValues.name === { searchQuery }}
+							changeFunction={(e) => handleFiltering(e.target.value)}
 						/>
 					</CardSearchStyle>
 					<CountryListStyle>
@@ -200,7 +222,7 @@ const Template = ({ children, header, url }) => {
 				</SearchSectionStyle>
 				<Card paginatedValues={paginatedValues} page={page} />
 				<FooterStyle>
-					<CSVLink data={csv} style={{textDecoration:"none", color:"white", width: '200px'}}>
+					<CSVLink data={csv} style={{ textDecoration: 'none', color: 'white', width: '200px' }}>
 						<DownloadStyle>
 							<Text color="white" size="large" fontSize="13px">
 								Download results

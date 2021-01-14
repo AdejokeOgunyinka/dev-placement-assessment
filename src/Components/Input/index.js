@@ -22,7 +22,7 @@ const Input = ({ type, placeholder, borderRadius, iconColor, backgroundColor, op
 						<SearchIcon color={iconColor} opacity={opacity}/>
 					</SearchButton>
 				</IconContainer>
-				<WhiteInputBox placeholder={placeholder}/>
+				<WhiteInputBox placeholder={placeholder} onChange={changeFunction}/>
 			</InputContainer>
 		)
 	}
