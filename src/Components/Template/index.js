@@ -46,22 +46,24 @@ const Template = ({ children, header, url }) => {
 
 	const [ searchQuery, setSearchQuery ] = useState([]);
 	const [ filteredData, setFilteredData ] = useState([]);
+	const [ country, setCountry] = useState([]);
 
 	const handleFiltering = (query) => {
 		const filtered = values.filter(
 			(name) =>
 				name.name.first.toLowerCase().includes(query.toLowerCase()) ||
-				name.name.last.toLowerCase().includes(query.toLowerCase())
+				name.name.last.toLowerCase().includes(query.toLowerCase()) ||
+				name.location.country.toLowerCase().includes(query.toLowerCase())
 		);
 		setFilteredData(filtered);
 		setPaginatedValues(() => [ ...filtered.slice(0, 3) ]);
 	};
 
-	// console.log(paginatedValues[0]);
-
 	const { Parser } = require('json2csv');
 	const json2csvParser = new Parser();
 	const csv = json2csvParser.parse({ paginatedValues });
+
+	// console.log(countryList().getValue());
 
 	const handleChange = (nextChecked) => {
 		setChecked(nextChecked);
@@ -103,7 +105,6 @@ const Template = ({ children, header, url }) => {
 		fetchFunction();
 	}, []);
 
-	console.log(searchQuery);
 	return (
 		<Container className="page" type="background">
 			{redirect && <Redirect to={`/${active}`} />}
@@ -146,7 +147,7 @@ const Template = ({ children, header, url }) => {
 						textFontSize="12px"
 						textOpacity="0.6"
 						active={active}
-						setActive={setActive}
+						setActive={handleActivePage}
 					>
 						All Users
 					</LinkBox>
@@ -201,7 +202,12 @@ const Template = ({ children, header, url }) => {
 						/>
 					</CardSearchStyle>
 					<CountryListStyle>
-						<Select placeholder=" Country " options={countryList().getData()} />
+						<Select
+							placeholder=" Country "
+							options={countryList().getData()}
+							// value={countryList().getValue()}
+							// onChange={(e) => console.log(e.target.value)}
+						/>
 					</CountryListStyle>
 					<Switch
 						checked={checked}
