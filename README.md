@@ -18,3 +18,5 @@ I used Javascript Fetch to get the data from the Random User API.
 
 ### Additional Information
 I componentized the project so that I could just plug in the different designed parts. I also limited my work to the main branch.
+
+* Run yarn install to get the required packages for this project.
