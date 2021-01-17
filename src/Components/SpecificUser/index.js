@@ -64,7 +64,9 @@ const SpecificUser = ({ children, paginatedValues }) => {
 	};
 	const userId = getUrl[getUrl.length - 1];
 	const users = JSON.parse(localStorage.getItem("users"))
-	const currentUser = users.filter(user=> user.id.value===userId)[0]
+	const currentUser = users?.filter(user=> user?.id?.value===userId)[0]
+
+	// console.log(localStorage);
 
 	// const history = useHistory();
 

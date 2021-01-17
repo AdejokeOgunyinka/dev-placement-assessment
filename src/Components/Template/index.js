@@ -36,6 +36,7 @@ const Template = ({ children, header, url }) => {
 	const [ active, setActive ] = useState(page);
 	const [ redirect, setRedirect ] = useState(false);
 	const handleActivePage = (page) => {
+		localStorage.clear();
 		setActive(page === 'all' ? '' : page);
 		setRedirect(true);
 	};
@@ -70,6 +71,7 @@ const Template = ({ children, header, url }) => {
 
 	const handleChange = (nextChecked) => {
 		setChecked(nextChecked);
+		// CountryListStyle.strike();
 	};
 
 	const [ currentPage, setPage ] = useState(1);
@@ -96,12 +98,23 @@ const Template = ({ children, header, url }) => {
 		}
 	};
 
+	// console.log(localStorage);
+
 	const fetchFunction = async () => {
-		const data = await fetch(url);
-		const results = await data.json();
-		setItems(() => [ ...results.results ]);
-		setPaginatedValues(() => [ ...results.results.slice(0, 3) ]);
-		localStorage.setItem('users', JSON.stringify(results.results));
+		if (localStorage.length > 0) {
+			const data = JSON.parse(localStorage.getItem("users"))
+			setItems(() => [...data]);
+			setPaginatedValues(() => [...data.slice(0,3)]);
+			localStorage.clear();
+		}
+		else {
+			const data = await fetch(url);
+			const results = await data.json();
+			setItems(() => [ ...results.results.filter((user) => user.id.value !== null) ]);
+			setPaginatedValues(() => [ ...results.results.filter((user) => user.id.value !== null).slice(0, 3) ]);
+			localStorage.setItem('users', JSON.stringify(results.results.filter((user) => user.id.value !== null)));
+			// localStorage.clear();
+		}
 	};
 
 	useEffect(() => {
